@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flor para Mi Hermana</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Dancing+Script:wght@500&display=swap" rel="stylesheet">
+<style>
+* {margin:0;padding:0;box-sizing:border-box;}
+body {
+  height:100vh;width:100vw;
+  background: linear-gradient(to bottom, #ffc6e5, #ff9ecb, #ffc6e5);
+  overflow:hidden;
+  display:flex;justify-content:center;align-items:center;
+  font-family:'Great Vibes', cursive;
+  position: relative;
+}
+
+.heart {
+  position: absolute;
+  font-size: 3.5rem;
+  color: #fff;
+  font-family: 'Dancing Script', cursive;
+  font-weight: bold;
+  white-space: nowrap;
+  animation: floatUp linear forwards;
+  opacity: 1;
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.9);
+  padding: 0; 
+  background: none;
+  border-radius: 0;
+}
+
+
+
+@keyframes floatUp {
+  from { transform: translateY(100vh) scale(0.9); opacity: 1; }
+  to { transform: translateY(-20vh) scale(1.1); opacity: 0; }
+}
+
+/* Pantalla inicial */
+#initial-screen {
+  text-align:center; padding:30px;
+  background:rgba(0,0,0,0.4); border-radius:20px;
+  color:#fff; z-index:50; position:relative;
+  transition:opacity 1s ease;
+  box-shadow: 0 0 25px rgba(0,0,0,0.2);
+}
+#initial-screen h1 { font-size:2.5rem; margin-bottom:20px; }
+#initial-screen p { font-size:1.2rem; margin-bottom:30px; }
+#show-detail-btn {
+  padding:15px 40px; font-size:1.5rem;
+  background:linear-gradient(to right,#ff85a2,#ff4d6d);
+  color:white; border:none; border-radius:50px;
+  cursor:pointer; transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  font-family: 'Dancing Script', cursive;
+}
+#show-detail-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+  background:linear-gradient(to right,#ff4d6d,#ff85a2);
+}
+
+
+#flower-screen {
+  position:absolute;top:0;left:0;
+  width:100%;height:100%;
+  display:none;opacity:0;
+  transition:opacity 1.5s ease;
+  background: linear-gradient(to bottom, rgba(255,198,229,0.7), rgba(255,158,203,0.7));
+  z-index: 20;
+}
+
+#petal-message {
+  position: absolute;
+  top: 15%;
+  width: 100%;
+  text-align: center;
+  font-size: 2.5rem;
+  color: #fff;
+  text-shadow: 2px 2px 12px rgba(0,0,0,0.9);
+  font-family: 'Dancing Script', cursive;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  z-index: 30;
+}
+
+
+.scene-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* centra verticalmente todo */
+  align-items: center;     /* centra horizontalmente todo */
+  gap: 75px; /* espacio entre la frase y la flor */
+}
+.text {
+  color: #d42c5f;
+  font-size: 2rem;
+  font-weight: bold;
+  text-shadow: 0 0 15px rgba(255,255,255,0.9);
+  font-family: 'Dancing Script', cursive;
+  animation: fadeInText 3s ease-in 2.5s forwards;
+  opacity: 0;
+  text-align: center;
+}
+
+
+/* Flor */
+.rose {
+  position: relative;
+  width: 250px; height: 400px;
+  animation: sway 8s ease-in-out infinite;
+  transform-origin: bottom;
+}
+.petals {
+  position: relative;
+  width: 100%; height: 220px;
+  display: flex; justify-content: center; align-items: center;
+  transform-origin: bottom center;
+}
+.petals > div {
+  position: absolute;
+  width: 90px; height: 110px;
+  border-radius: 50% 50% 40% 40%;
+  background: radial-gradient(circle at 30% 30%, #cfd64f, #f1e607);
+  box-shadow: inset 0 0 10px rgba(179, 236, 8, 0.8), 0 0 12px rgba(0,0,0,0.2);
+  opacity: 0;
+  transform: rotate(var(--angle)) translateY(-60px) scale(0);
+  animation: bloom 1.5s forwards;
+  cursor: pointer;
+}
+
+/* Pétalos en círculo */
+.petals > div:nth-child(1){ --angle: 0deg; animation-delay: 0.2s; }
+.petals > div:nth-child(2){ --angle: 45deg; animation-delay: 0.4s; }
+.petals > div:nth-child(3){ --angle: 90deg; animation-delay: 0.6s; }
+.petals > div:nth-child(4){ --angle: 135deg; animation-delay: 0.8s; }
+.petals > div:nth-child(5){ --angle: 180deg; animation-delay: 1s; }
+.petals > div:nth-child(6){ --angle: 225deg; animation-delay: 1.2s; }
+.petals > div:nth-child(7){ --angle: 270deg; animation-delay: 1.4s; }
+.petals > div:nth-child(8){ --angle: 315deg; animation-delay: 1.6s; }
+
+/* Centro (no cambia de color) */
+.center-circle {
+  position: absolute;
+  width: 60px; height: 60px;
+  background: radial-gradient(circle, #8B0000, #5a0000 80%);
+  border-radius: 50%;
+  top: 70px; left: calc(50% - 30px);
+  z-index: 10;
+  box-shadow: 0 0 20px rgba(139, 0, 0, 0.8);
+  animation: pulse 2s infinite 3s;
+}
+
+/* Tallo y hojas */
+.stem {
+  position: absolute; bottom: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 12px; height: 280px;
+  background: linear-gradient(to right, #0b8e36, #4caf50, #0b8e36);
+  box-shadow: 0 0 5px rgba(0,0,0,0.2);
+}
+.leaves div {
+  position: absolute;
+  width: 40px; height: 70px;
+  background:#0b8e36;
+  border-radius:0 50% 50% 0;
+}
+.leaves div:nth-child(1) { top:260px; left:calc(50% - 40px); transform:rotate(-30deg); }
+.leaves div:nth-child(2) { top:210px; left:50%; transform:rotate(30deg); }
+.leaves div::before {
+  content: ''; position: absolute;
+  width: 35px; height: 65px;
+  background: #4caf50; border-radius: 0 50% 50% 0;
+  left: 2px; top: 2px;
+}
+
+/* Animaciones */
+@keyframes fadeInText { to{opacity:1;} }
+@keyframes bloom { to { opacity: 1; transform: rotate(var(--angle)) translateY(-60px) scale(1); } }
+@keyframes sway {
+  0%{transform:rotate(0);} 25%{transform:rotate(3deg);}
+  75%{transform:rotate(-3deg);} 100%{transform:rotate(0);}
+}
+@keyframes pulse { 0%{transform:scale(1);} 50%{transform:scale(1.1);} 100%{transform:scale(1);} }
+
+/* Estados de color */
+.petal-yellow {
+  background: radial-gradient(circle at 30% 30%, #cfd64f, #f1e607) !important;
+  box-shadow: inset 0 0 10px rgba(179, 236, 8, 0.8), 0 0 12px rgba(0,0,0,0.2) !important;
+}
+.petal-red {
+  background: radial-gradient(circle at 30% 30%, #ff4d6d, #b30000) !important;
+  box-shadow: inset 0 0 10px rgba(255, 50, 50, 0.8), 0 0 15px rgba(0,0,0,0.3) !important;
+}
+
+</style>
+</head>
+<body>
+    <audio id="music" loop>
+  <source src="Coldplay_Paradise.mp3" type="audio/mpeg">
+  Tu navegador no soporta la reproducción de audio.
+</audio>
+
+
+<div id="initial-screen">
+  <h1>Un Regalo Especial 🌸</h1>
+  <p>Haz clic en el botón para revelar una sorpresa de cariño.</p>
+  <button id="show-detail-btn">Para Mi Hermana</button>
+</div>
+
+<div id="petal-message" style="
+  position:absolute;
+  top:20%;
+  width:100%;
+  text-align:center;
+  font-size:2rem;
+  color:#fff;
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.9);
+  font-family:'Dancing Script', cursive;
+  pointer-events:none;
+  opacity:0;
+  transition: opacity 0.5s ease;
+  z-index:30;
+"></div> 
+
+<div id="flower-screen">
+  <div class="scene-container">
+    <div class="text">Para mi Hermana 💖</div>
+    <div class="rose">
+      <div class="petals">
+        <div class="petal-yellow"></div><div class="petal-yellow"></div><div class="petal-yellow"></div><div class="petal-yellow"></div>
+        <div class="petal-yellow"></div><div class="petal-yellow"></div><div class="petal-yellow"></div><div class="petal-yellow"></div>
+      </div>
+      <div class="center-circle"></div>
+      <div class="stem"></div>
+      <div class="leaves"><div></div><div></div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+const showDetailBtn = document.getElementById('show-detail-btn');
+const initialScreen = document.getElementById('initial-screen');
+const flowerScreen = document.getElementById('flower-screen');
+
+showDetailBtn.addEventListener('click', () => {
+  initialScreen.style.opacity = '0';
+  setTimeout(() => {
+    initialScreen.style.display = 'none';
+    flowerScreen.style.display = 'block';
+    setTimeout(() => flowerScreen.style.opacity = '1', 100);
+  }, 1000);
+});
+
+/* Frases de cariño */
+const frasesCorazones = [
+  "💖","🌸","🌞","❤️","💕","✨","🎈","🌹"
+]; 
+const frasesPetalos = [
+  "Te quiero mucho hermana💖",
+  "Gracias por estar siempre 🌸",
+  "Cuentas conmigo 🌞",
+  "Con todo mi cariño ❤️",
+  "Siempre estaré a tu lado 💕",
+  "Eres la mejor ✨",
+  "Gracias por tu apoyo 🎈",
+  "Eres genial 🌹"
+]; 
+
+
+function createHeart() {
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.textContent = frasesCorazones[Math.floor(Math.random() * frasesCorazones.length)];
+  heart.style.left = Math.random() * 80 + "vw";
+  heart.style.animationDuration = (5 + Math.random() * 5) + "s";
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 10000);
+}
+setInterval(createHeart, 800);
+
+
+const petals = document.querySelectorAll(".petals > div");
+const petalColors = ["petal-yellow", "petal-red"];
+const petalMessage = document.getElementById('petal-message');
+
+petals.forEach(petal => {
+  petal.dataset.colorIndex = 0;
+  petal.addEventListener("click", () => {
+    petal.classList.remove(petalColors[petal.dataset.colorIndex]);
+    petal.dataset.colorIndex = (parseInt(petal.dataset.colorIndex) + 1) % petalColors.length;
+    petal.classList.add(petalColors[petal.dataset.colorIndex]);
+
+    const frase = frasesPetalos[Math.floor(Math.random() * frasesPetalos.length)];
+    petalMessage.textContent = frase;
+
+    // Aparece
+    petalMessage.style.opacity = 1;
+
+    setTimeout(() => {
+      petalMessage.style.opacity = 0;
+    }, 1500);
+  });
+});
+
+const music = document.getElementById('music');
+
+showDetailBtn.addEventListener('click', () => {
+  initialScreen.style.opacity = '0';
+  setTimeout(() => {
+    initialScreen.style.display = 'none';
+    flowerScreen.style.display = 'block';
+    setTimeout(() => flowerScreen.style.opacity = '1', 100);
+
+    music.play().catch(err => console.log("Interacción requerida para audio: ", err));
+
+  }, 1000);
+});
+
+
+
+</script>
+</body>
+</html>
